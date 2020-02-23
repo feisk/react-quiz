@@ -1,0 +1,1 @@
+export { AnswersItem } from './answers-item';

@@ -4,17 +4,32 @@ import { ActiveQuiz } from '../../components/active-quiz';
 
 class Quiz extends React.Component {
     state = {
-        quiz: []
+        quiz: [
+            {
+                answers: [
+                    {
+                        text: 1
+                    },
+                    {
+                        text: 2
+                    },
+                    {
+                        text: 3
+                    }
+                ]
+            }
+        ]
     };
 
     render() {
+        const { quiz } = this.state;
 
         return (
-          <div className={classes.quiz}>
+          <div className={classes.root}>
               <div className={classes.inner}>
                   <h1 className={classes.title}>Quiz</h1>
 
-                  <ActiveQuiz />
+                  <ActiveQuiz answers={quiz[0].answers} />
               </div>
           </div>
         )
