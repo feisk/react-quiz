@@ -1,5 +1,15 @@
 .root {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  padding: 5px 10px;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 100ms ease;
+
+  &:hover {
+    background-color: rgba(#fff, .2);
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
 }

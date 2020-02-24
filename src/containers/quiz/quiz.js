@@ -15,6 +15,12 @@ class Quiz extends React.Component {
                     },
                     {
                         text: 3
+                    },
+                    {
+                        text: 4
+                    },
+                    {
+                        text: 5
                     }
                 ]
             }
@@ -27,7 +33,7 @@ class Quiz extends React.Component {
         return (
           <div className={classes.root}>
               <div className={classes.inner}>
-                  <h1 className={classes.title}>Quiz</h1>
+                  <h1 className={classes.title}>Ответьте на все вопросы</h1>
 
                   <ActiveQuiz answers={quiz[0].answers} />
               </div>
