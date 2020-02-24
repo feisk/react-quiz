@@ -4,18 +4,27 @@ import classes from './style.module.scss';
 import { AnswersList } from './components';
 
 const ActiveQuiz = props => {
-    const { answers } = props;
+    const {
+        quiz: { question, answers },
+        quizLength,
+        answerState,
+        questionNumber,
+        handleClick
+    } = props;
 
     return (
         <div className={classes.root}>
             <p className={classes.question}>
               <span>
-                  <strong>2.</strong>
-                  &nbsp;Text text?
+                  <strong>{questionNumber}.</strong>&nbsp;{question}
               </span>
-                <small>4 из 12</small>
+                <small>{questionNumber} из {quizLength}</small>
             </p>
-            <AnswersList answers={answers} />
+            <AnswersList
+                answers={answers}
+                handleClick={handleClick}
+                answerState={answerState}
+            />
         </div>
     )
 };

@@ -3,7 +3,9 @@
   border: 1px solid #fff;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 100ms ease;
+  transition-property: background-color;
+  transition-duration: 125ms;
+  transition-timing-function: ease;
 
   &:hover {
     background-color: rgba(#fff, .2);
@@ -11,5 +13,19 @@
 
   &:not(:last-child) {
     margin-bottom: 5px;
+  }
+
+  &.success {
+
+    &, &:hover {
+      background-color: rgba(green, .5);
+    }
+  }
+
+  &.error {
+
+    &, &:hover {
+      background-color: rgba(red, .5);
+    }
   }
 }

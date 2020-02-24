@@ -2,9 +2,31 @@ import React from 'react';
 import classes from './style.module.scss';
 
 const AnswersItem = props => {
-    const { answer: { text } } = props;
+    const {
+        answer: { id, text },
+        answerState,
+        handleClick
+    } = props;
 
-    return (<li className={classes.root}>{text}</li>);
+    const cls = [
+        classes.root,
+    ];
+
+    if (answerState && answerState[id]) {
+        cls.push(classes[answerState[id]])
+    }
+
+    const handleItemClick = () => handleClick(id);
+
+    return (
+        <li
+            id={id}
+            className={cls.join(' ')}
+            onClick={handleItemClick}
+        >
+            {text}
+        </li>
+    );
 };
 
  export { AnswersItem };

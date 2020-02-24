@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import classes from './style.module.scss';
 
 class Layout extends React.Component {
-    // constructor(props) {
-    //     super(props)
-    // }
 
     render() {
         const { children } = this.props;

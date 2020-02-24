@@ -4,7 +4,7 @@ import classes from './style.module.scss';
 import { AnswersItem } from "..";
 
 const AnswersList = props => {
-    const { answers } = props;
+    const { answers, answerState, handleClick } = props;
 
     return (
         <ul className={classes.root}>
@@ -12,6 +12,8 @@ const AnswersList = props => {
                 <AnswersItem
                     key={index}
                     answer={answer}
+                    handleClick={handleClick}
+                    answerState={answerState}
                 />
             ))}
         </ul>
