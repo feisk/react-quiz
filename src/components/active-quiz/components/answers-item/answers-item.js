@@ -12,9 +12,7 @@ const AnswersItem = props => {
         classes.root,
     ];
 
-    if (answerState && answerState[id]) {
-        cls.push(classes[answerState[id]])
-    }
+    if (answerState && answerState[id]) cls.push(classes[answerState[id]]);
 
     const handleItemClick = () => handleClick(id);
 

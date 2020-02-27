@@ -7,6 +7,7 @@ class Quiz extends React.Component {
         super(props);
 
         this.state = {
+            isFinished: false,
             activeQuestion: 0,
             answerState: null,
             quiz: [
@@ -84,13 +85,21 @@ class Quiz extends React.Component {
     };
 
     render() {
-        const { activeQuestion, answerState, quiz } = this.state;
+        const {
+            isFinished,
+            activeQuestion,
+            answerState,
+            quiz
+        } = this.state;
+
         const questionNumber = activeQuestion + 1;
         const quizLength = quiz.length;
 
         const isQuizFinished = () => questionNumber === quizLength;
 
         const handleAnswerClick = id => {
+            if (answerState && answerState[id] === 'success') return;
+
             const { rightAnswerId } = quiz[activeQuestion];
 
             if (id !== rightAnswerId) {
@@ -106,7 +115,9 @@ class Quiz extends React.Component {
 
             const timeout = window.setTimeout(() => {
                 if (isQuizFinished()) {
-                    console.log('You are finished!');
+                    this.setState({
+                        isFinished: true,
+                    });
                 } else {
                     this.setState(prevState => ({
                         activeQuestion: prevState.activeQuestion + 1,
@@ -121,13 +132,17 @@ class Quiz extends React.Component {
           <div className={classes.root}>
               <div className={classes.inner}>
                   <h1 className={classes.title}>Ответьте на все вопросы</h1>
-                  <ActiveQuiz
-                      quiz={quiz[activeQuestion]}
-                      quizLength={quizLength}
-                      answerState={answerState}
-                      questionNumber={questionNumber}
-                      handleClick={handleAnswerClick}
-                  />
+                  { isFinished ?
+                      <h1>You are finished!</h1>
+                  :
+                      <ActiveQuiz
+                          quiz={quiz[activeQuestion]}
+                          quizLength={quizLength}
+                          answerState={answerState}
+                          questionNumber={questionNumber}
+                          handleClick={handleAnswerClick}
+                      />
+                  }
               </div>
           </div>
         )
