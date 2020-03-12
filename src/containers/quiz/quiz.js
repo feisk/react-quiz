@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './style.module.scss';
-import { ActiveQuiz } from '../../components/active-quiz';
+import { ActiveQuiz, FinishedQuiz } from '../../components';
 
 class Quiz extends React.Component {
     constructor(props) {
@@ -10,6 +10,7 @@ class Quiz extends React.Component {
             isFinished: false,
             activeQuestion: 0,
             answerState: null,
+            results: {},
             quiz: [
                 {
                     id: 1,
@@ -89,6 +90,7 @@ class Quiz extends React.Component {
             isFinished,
             activeQuestion,
             answerState,
+            results,
             quiz
         } = this.state;
 
@@ -103,15 +105,23 @@ class Quiz extends React.Component {
             const { rightAnswerId } = quiz[activeQuestion];
 
             if (id !== rightAnswerId) {
-                this.setState({
-                    answerState: {[id]: 'error'}
-                });
+                this.setState(prevState => ({
+                    answerState: {[id]: 'error'},
+                    results: !prevState.results[activeQuestion] ? {
+                        ...prevState.results,
+                        [activeQuestion]: 'error'
+                    } : { ...prevState.results },
+                }));
                 return;
             }
 
-            this.setState({
-                answerState: {[id]: 'success'}
-            });
+            this.setState(prevState => ({
+                answerState: {[id]: 'success'},
+                results: !prevState.results[activeQuestion] ? {
+                    ...prevState.results,
+                    [activeQuestion]: 'success'
+                } : { ...prevState.results },
+            }));
 
             const timeout = window.setTimeout(() => {
                 if (isQuizFinished()) {
@@ -128,12 +138,17 @@ class Quiz extends React.Component {
             }, 500);
         };
 
+        console.log(results);
+
         return (
           <div className={classes.root}>
               <div className={classes.inner}>
                   <h1 className={classes.title}>Ответьте на все вопросы</h1>
                   { isFinished ?
-                      <h1>You are finished!</h1>
+                      <FinishedQuiz
+                          results={results}
+                          quiz={quiz}
+                      />
                   :
                       <ActiveQuiz
                           quiz={quiz[activeQuestion]}
