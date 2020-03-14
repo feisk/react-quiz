@@ -2,7 +2,12 @@ import React from 'react';
 import classes from './style.module.scss';
 
 const FinishedQuiz = props => {
-    const { results, quiz } = props;
+    const { results, quizLength, quiz, handleClick } = props;
+
+    const successCount = Object.keys(results).reduce((total, key) => {
+        if (results[key] === 'success') total++;
+        return total;
+    }, 0);
 
     return (
         <div
@@ -15,8 +20,6 @@ const FinishedQuiz = props => {
                         classes[results[index]]
                     ];
 
-                    console.log('results[el]', results[index]);
-
                     return (
                         <li
                             key={index}
@@ -28,8 +31,12 @@ const FinishedQuiz = props => {
                     );
                 })}
             </ul>
-            <p>Правильно 4 из 10</p>
-            <button>Повторить</button>
+            <p>Правильно {successCount} из {quizLength}</p>
+            <button
+                onClick={handleClick}
+            >
+                Повторить
+            </button>
         </div>
     )
 };

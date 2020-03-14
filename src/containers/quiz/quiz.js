@@ -138,7 +138,14 @@ class Quiz extends React.Component {
             }, 500);
         };
 
-        console.log(results);
+        const handleRetryClick = () => {
+            this.setState( {
+                isFinished: false,
+                activeQuestion: 0,
+                answerState: null,
+                results: {},
+            });
+        };
 
         return (
           <div className={classes.root}>
@@ -146,8 +153,10 @@ class Quiz extends React.Component {
                   <h1 className={classes.title}>Ответьте на все вопросы</h1>
                   { isFinished ?
                       <FinishedQuiz
-                          results={results}
                           quiz={quiz}
+                          results={results}
+                          quizLength={quizLength}
+                          handleClick={handleRetryClick}
                       />
                   :
                       <ActiveQuiz
