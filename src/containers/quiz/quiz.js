@@ -7,7 +7,7 @@ class Quiz extends React.Component {
         super(props);
 
         this.state = {
-            isFinished: false,
+            isFinished: true,
             activeQuestion: 0,
             answerState: null,
             results: {},

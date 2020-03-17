@@ -12,13 +12,14 @@
 }
 
 .item {
-
+  line-height: 1.5;
 
   &:after {
     display: inline;
     margin-left: 5px;
     font-size: 1.25em;
     font-weight: 700;
+    line-height: 1;
   }
 
   &.success {

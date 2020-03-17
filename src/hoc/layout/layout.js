@@ -5,10 +5,11 @@ import classes from './style.module.scss';
 class Layout extends React.Component {
 
     render() {
-        const { children } = this.props;
+        const { header, children } = this.props;
 
         return (
             <div className={classes.layout}>
+                {header}
                 <main className={classes.main}>
                     {children}
                 </main>
@@ -18,10 +19,12 @@ class Layout extends React.Component {
 }
 
 Layout.propTypes = {
+    header: PropTypes.node,
     children: PropTypes.node
 };
 
 Layout.defaultProps = {
+    header: null,
     children: null
 };
 

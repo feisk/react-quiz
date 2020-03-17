@@ -1,0 +1,28 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  transform: translate3d(-100%, 0, 0);
+  transition: transform 250ms ease;
+}
+
+.link {
+  padding: 10px;
+  transition: background-color 150ms ease;
+  color: #363D54;
+  text-decoration: none;
+  outline: none;
+
+  &:hover {
+    background-color: rgba(lightgrey, .5);
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
+.show {
+  transform: translate3d(0, 0, 0);
+}

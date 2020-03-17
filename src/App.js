@@ -1,10 +1,12 @@
 import React from 'react';
 import  { Layout } from './hoc';
-import  { Quiz } from './containers';
+import  { Quiz, Header } from './containers';
 
 function App() {
   return (
-    <Layout>
+    <Layout
+        header={<Header />}
+    >
         <Quiz />
     </Layout>
   );

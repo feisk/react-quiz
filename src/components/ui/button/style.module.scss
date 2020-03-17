@@ -1,0 +1,56 @@
+.root {
+  display: inline-block;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000;
+  white-space: nowrap;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: color, background-color, box-shadow 150ms ease;
+
+  &:focus:not(.toggle) {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .3);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+
+  &.toggle {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 16px 10px;
+    border: 1px solid #ccc;
+    pointer-events: auto;
+  }
+
+  &.primary {
+    background-color: #2884f6;
+    color: #fff;
+  }
+
+  &.success {
+    background-color: lightgreen;
+  }
+
+  &.error {
+    background-color: red;
+  }
+}
