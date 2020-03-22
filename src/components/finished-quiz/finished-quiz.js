@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import classes from './style.module.scss';
 import { Button } from '../ui';
 
@@ -39,12 +40,14 @@ const FinishedQuiz = props => {
             >
                 Повторить
             </Button>
-            <Button
-                type="success"
-                onClick={handleClick}
-            >
-                Повторить
-            </Button>
+            <Link to="/">
+                <Button
+                    type="success"
+                    onClick={handleClick}
+                >
+                    К списку тестов
+                </Button>
+            </Link>
         </div>
     )
 };

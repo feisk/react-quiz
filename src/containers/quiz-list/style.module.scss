@@ -1,0 +1,14 @@
+.root {
+  background: linear-gradient(45deg, #df8355, #f0576c);
+}
+
+.link {
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  &:hover {
+    color: #363D54;
+  }
+}

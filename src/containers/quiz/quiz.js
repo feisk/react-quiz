@@ -7,7 +7,7 @@ class Quiz extends React.Component {
         super(props);
 
         this.state = {
-            isFinished: true,
+            isFinished: false,
             activeQuestion: 0,
             answerState: null,
             results: {},
@@ -94,6 +94,8 @@ class Quiz extends React.Component {
             quiz
         } = this.state;
 
+        console.log('Quiz props', this.props);
+
         const questionNumber = activeQuestion + 1;
         const quizLength = quiz.length;
 
@@ -149,8 +151,8 @@ class Quiz extends React.Component {
 
         return (
           <div className={classes.root}>
-              <div className={classes.inner}>
-                  <h1 className={classes.title}>Ответьте на все вопросы</h1>
+              <div>
+                  <h1>Ответьте на все вопросы</h1>
                   { isFinished ?
                       <FinishedQuiz
                           quiz={quiz}

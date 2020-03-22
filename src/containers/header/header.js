@@ -3,7 +3,23 @@ import classes from './style.module.scss';
 import { Navigation } from '../../components';
 import { Button, Overlay } from "../../components/ui";
 
-const links = [1, 2, 3];
+const links = [
+    {
+        to: '/',
+        label: 'Список',
+        exact: true
+    },
+    {
+        to: '/auth',
+        label: 'Авторизация',
+        exact: false
+    },
+    {
+        to: '/quiz-creator',
+        label: 'Создать тест',
+        exact: false
+    }
+];
 
 const Header = () => {
     const [ show, setShow ] = React.useState(false);
@@ -16,8 +32,18 @@ const Header = () => {
 
     return (
         <header className={cls.join(' ')}>
-            <Button type="toggle" onClick={handleClick} />
-            <Navigation show={show} links={links} />
+            <Button
+                customClasses={[
+                    'toggle',
+                    show ? 'is-show' : '',
+                ]}
+                onClick={handleClick}
+            />
+            <Navigation
+                show={show}
+                links={links}
+                onClick={handleClick}
+            />
             {show ? <Overlay onClick={handleClick} /> : null}
         </header>
     );

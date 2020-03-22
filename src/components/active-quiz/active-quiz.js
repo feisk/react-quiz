@@ -15,9 +15,7 @@ const ActiveQuiz = props => {
     return (
         <div className={classes.root}>
             <p className={classes.question}>
-              <span>
-                  <strong>{questionNumber}.</strong>&nbsp;{question}
-              </span>
+                {questionNumber}.&nbsp;{question}
                 <small>{questionNumber} из {quizLength}</small>
             </p>
             <AnswersList

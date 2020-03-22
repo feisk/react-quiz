@@ -1,6 +1,6 @@
 .root {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 11px 20px;
   font-weight: 700;
   font-size: 12px;
   line-height: 1;
@@ -37,8 +37,58 @@
     height: 32px;
     padding: 0;
     margin: 16px 10px;
-    border: 1px solid #ccc;
+    border: none;
+    background-color: transparent;
     pointer-events: auto;
+
+    &,
+    &:before,
+    &:after {
+      background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjIiIHZpZXdCb3g9IjAgMCAyMCAyIiB3aWR0aD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTE5IDFjLTguMDY0IDAtMTUuMzYgMC0xOCAwIiBzdHJva2U9IiM3YzdlOTIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+);
+      background-size: 18px 2px;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: background-size 50ms ease;
+    }
+
+    &:before,
+    &:after {
+      position: absolute;
+      content: '';
+      width: 18px;
+      height: 2px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      transition: top 150ms ease 150ms, transform ease 150ms;
+      will-change: top, transform;
+    }
+
+    &:before {
+      top: 9px;
+    }
+
+    &:after {
+      top: 21px;
+    }
+
+    &.is-show {
+      background-size: 18px 0;
+
+      &:before,
+      &:after {
+        top: calc(50% - 1px);
+        transition: top 150ms ease, transform 150ms ease 150ms;
+      }
+
+      &:before {
+        transform: rotate(45deg);
+      }
+
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
   }
 
   &.primary {

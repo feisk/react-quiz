@@ -1,15 +1,21 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom'
 import  { Layout } from './hoc';
-import  { Quiz, Header } from './containers';
+import  { Quiz, QuizList, QuizCreator, Header, Auth } from './containers';
 
-function App() {
+const App = () => {
   return (
     <Layout
         header={<Header />}
     >
-        <Quiz />
+        <Switch>
+            <Route path="/auth" component={Auth}/>
+            <Route path="/quiz-creator" component={QuizCreator}/>
+            <Route path="/quiz/:id" component={Quiz}/>
+            <Route path="/" component={QuizList}/>
+        </Switch>
     </Layout>
   );
-}
+};
 
-export default App;
+export { App };

@@ -2,12 +2,12 @@ import React from 'react';
 import classes from './style.module.scss';
 
 const Button = props => {
-    const {type,  children, onClick, disabled } = props;
+    const {type, customClasses, children, onClick, disabled } = props;
 
-    const cls = [
-        classes.root,
-        classes[type]
-    ];
+    const cls = [classes.root];
+
+    if (type) cls.push(classes[type]);
+    if (customClasses) customClasses.map(el => el && cls.push(classes[el]));
 
     return (
       <button

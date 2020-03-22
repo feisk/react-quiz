@@ -7,9 +7,43 @@
   * {
     box-sizing: inherit;
   }
+
+  ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+    transition: color 125ms ease;
+  }
 }
 
 .main {
   display: flex;
   flex-grow: 1;
+  color: #fff;
+
+  & > * {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+    padding: 100px 50px;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      max-width: 600px;
+
+      & > h1 {
+        text-align: center;
+      }
+    }
+  }
 }

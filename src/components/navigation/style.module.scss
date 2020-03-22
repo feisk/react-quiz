@@ -4,22 +4,21 @@
   flex-direction: column;
   min-width: 250px;
   transform: translate3d(-100%, 0, 0);
-  transition: transform 250ms ease;
+  transition: transform 250ms ease 50ms;
 }
 
 .link {
   padding: 10px;
-  transition: background-color 150ms ease;
   color: #363D54;
-  text-decoration: none;
-  outline: none;
+  transition: background-color 150ms ease;
 
   &:hover {
     background-color: rgba(lightgrey, .5);
   }
 
-  &:not(:last-child) {
-    margin-bottom: 15px;
+  &.active {
+    font-weight: 500;
+    background-color: rgba(lightgrey, .75);
   }
 }
 

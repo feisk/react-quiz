@@ -1,8 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import classes from './style.module.scss';
 
 const Navigation = props => {
-    const { links, show } = props;
+    const { links, show, onClick } = props;
 
     const cls = [classes.root];
 
@@ -11,15 +12,17 @@ const Navigation = props => {
     return (
         <nav className={cls.join(' ')}>
             {links.map((link, index) => (
-                <a
+                <NavLink
                     key={index}
-                    href={`/${link}`}
+                    to={link.to}
+                    exact={link.exact}
                     className={classes.link}
-                    title={link}
-                    onClick={e => e.preventDefault()}
+                    activeClassName={classes.active}
+                    title={link.to}
+                    onClick={onClick}
                 >
-                    {index}.&nbsp;{link}
-                </a>
+                    {link.label}
+                </NavLink>
             ))}
         </nav>
     );

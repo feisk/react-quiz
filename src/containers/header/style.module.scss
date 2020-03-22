@@ -12,15 +12,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(#fff, #fff) left center/0 100% no-repeat;
-    transition: background-size 250ms ease;
+    background-color: #fff;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 250ms ease 50ms;
   }
 
   &.show {
     pointer-events: auto;
 
     &:before {
-      background-size: 100% 100%;
+      transform: translate3d(0, 0, 0);
     }
   }
 }

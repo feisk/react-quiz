@@ -7,5 +7,12 @@
 .question {
   display: flex;
   justify-content: space-between;
+  font-size: 1.125em;
+  font-weight: 600;
+
+  & > small {
+    padding-left: 15px;
+    flex-shrink: 0;
+  }
 }
 
