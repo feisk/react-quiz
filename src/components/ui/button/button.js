@@ -6,8 +6,9 @@ const Button = props => {
 
     const cls = [classes.root];
 
-    if (type) cls.push(classes[type]);
-    if (customClasses) customClasses.map(el => el && cls.push(classes[el]));
+    type && cls.push(classes[type]);
+    disabled && cls.push(classes.disabled);
+    customClasses && customClasses.map(el => el && cls.push(classes[el]));
 
     return (
       <button

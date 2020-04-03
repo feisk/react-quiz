@@ -9,7 +9,7 @@
   color: #000;
   white-space: nowrap;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #fff;
   background-color: #fff;
   outline: none;
   cursor: pointer;
@@ -20,11 +20,6 @@
 
   &:focus:not(.toggle) {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, .3);
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
   }
 
   &:not(:last-child) {
@@ -97,8 +92,8 @@
   }
 
   &.primary {
-    background-color: #2884f6;
-    color: #fff;
+    background-color: #2884F6;
+    color: #FFF;
   }
 
   &.success {
@@ -107,5 +102,11 @@
 
   &.error {
     background-color: red;
+  }
+
+  &.disabled {
+    background-color: #ccc;
+    color: #fff;
+    cursor: not-allowed;
   }
 }
