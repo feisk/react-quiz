@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  label {
+    margin-bottom: 4px;
+    padding: 0;
+    font-weight: 500;
+    text-transform: lowercase;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  select {
+    padding: 7px;
+    font-size: inherit;
+    line-height: 1;
+    color: inherit;
+    border: 1px solid #BEBEBE;
+    background-color: transparent;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}

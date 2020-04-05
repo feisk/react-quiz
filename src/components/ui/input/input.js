@@ -21,7 +21,7 @@ const Input = props => {
 
     const error = isInvalid(valid, touched, shouldValidate);
 
-    const id = `${type}-${(Math.random() * 100).toFixed(5)}`;
+    const id = `${label}-${(Math.random() * 100).toFixed(5)}`;
     const cls = [classes.root];
 
     fullWidth && cls.push(classes.fullWidth);

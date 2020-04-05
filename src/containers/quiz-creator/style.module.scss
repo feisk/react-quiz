@@ -1,0 +1,12 @@
+.root {
+  background: linear-gradient(45deg, #f0783a, #f0613a);
+
+  & form > div:first-child {
+
+    &:after {
+      margin-top: 15px;
+      content: '';
+      border-bottom: 1px solid grey;
+    }
+  }
+}

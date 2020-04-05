@@ -18,7 +18,7 @@ const controlsData = {
     password: {
         value: '',
         type: 'password',
-        label: 'Пароль',
+        label: 'пароль',
         errorMessage: 'Введите корректный пароль',
         valid: false,
         touched: false,
@@ -52,16 +52,16 @@ const validate = (value, validation) => {
 const Auth = () => {
 
     const [ controls, setControls ] = React.useState(controlsData);
-    const [ isFormValid, setIsFormValid ] = React.useState(true);
+    const [ isFormValid, setFormValid ] = React.useState(true);
 
     React.useEffect(() => {
-        setIsFormValid(
+        setFormValid(
             Object.keys(controls).every(name =>
                 controls[name].valid)
         );
     }, [controls]);
 
-    const renderInputs = () => (
+    const renderControls = () => (
         Object.keys(controls).map((name, index) => {
             const input = controls[name];
 
@@ -76,7 +76,7 @@ const Auth = () => {
                     touched={input.touched}
                     errorMessage={input.errorMessage}
                     shouldValidate={!!input.validation}
-                    onChange={e => handleChange(e, name)}
+                    onChange={event => handleChange(event, name)}
                     fullWidth
                 />
             );
@@ -115,10 +115,9 @@ const Auth = () => {
                 <h1>Авторизация</h1>
 
                 <form
-                    className={classes.form}
                     onSubmit={e => e.preventDefault()}
                 >
-                    {renderInputs()}
+                    {renderControls()}
                     <div>
                         <Button
                             type="success"
