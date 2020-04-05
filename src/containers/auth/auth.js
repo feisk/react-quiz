@@ -1,7 +1,7 @@
 import React from 'react';
-import is from 'is_js';
 import classes from './style.module.scss';
 import { Button, Input } from '../../components/ui'
+import { validateControl, validateForm } from '../../helpers';
 
 const controlsData = {
     email: {
@@ -29,36 +29,13 @@ const controlsData = {
     }
 };
 
-const validate = (value, validation) => {
-    if (!validation) return true;
-
-    let isValid = true;
-
-    if (validation.required) {
-        isValid = value.length !== 0;
-    }
-
-    if (validation.minLength) {
-        isValid = value.length >= validation.minLength && isValid;
-    }
-
-    if (validation.email) {
-        isValid = is.email(value) && isValid;
-    }
-
-    return isValid;
-};
-
 const Auth = () => {
 
     const [ controls, setControls ] = React.useState(controlsData);
     const [ isFormValid, setFormValid ] = React.useState(true);
 
     React.useEffect(() => {
-        setFormValid(
-            Object.keys(controls).every(name =>
-                controls[name].valid)
-        );
+        setFormValid(validateForm(controls));
     }, [controls]);
 
     const renderControls = () => (
@@ -94,13 +71,13 @@ const Auth = () => {
     const handleChange = (event, name) => {
         const value = event.target.value.replace(/\s+/g, '');
 
-        setControls(prevControls => {
-            const valid = validate(value, prevControls[name].validation);
+        setControls(prevState => {
+            const valid = validateControl(value, prevState[name].validation);
 
             return {
-                ...prevControls,
+                ...prevState,
                 [name]: {
-                    ...prevControls[name],
+                    ...prevState[name],
                     touched: true,
                     value,
                     valid,

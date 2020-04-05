@@ -1,22 +1,13 @@
 import React from 'react';
 import classes from './style.module.scss';
 import { Button, Input, Select } from '../../components/ui';
-import { CreateControl } from '../../helpers/create-control';
+import { createControl, validateControl, validateForm } from '../../helpers';
 
 const variantsMap = [ 1, 2, 3, 4 ];
 
-
-const createControls = () => ({
-    question: CreateControl({
-        label: 'Введите вопрос',
-        errorMessage: 'Вопрос не может быть пустым',
-    },{required: true }),
-    ...Object.assign({}, ...createVariants(variantsMap))
-});
-
 const createVariants = counts => (
     counts.map(count => ({
-        [`variant${count}`]: CreateControl({
+        [`variant${count}`]: createControl({
         id: count,
         label: `Вариант ${count}`,
         errorMessage: 'Значение не может быть пустым',
@@ -24,11 +15,26 @@ const createVariants = counts => (
     }))
 );
 
+const createControls = () => ({
+    question: createControl({
+        label: 'Введите вопрос',
+        errorMessage: 'Вопрос не может быть пустым',
+    },{required: true }),
+    ...Object.assign({}, ...createVariants(variantsMap))
+});
+
 const QuizCreator = () => {
+    const initialControls = createControls();
+    const initialRightAnswerId = 1;
 
     const [ quiz, setQuiz ] = React.useState([]);
-    const [ rightAnswerId, setRightAnswerId ] = React.useState(1);
-    const [ controls, setControls ] = React.useState(createControls());
+    const [ rightAnswerId, setRightAnswerId ] = React.useState(initialRightAnswerId);
+    const [ controls, setControls ] = React.useState(initialControls);
+    const [ isFormValid, setFormValid ] = React.useState(true);
+
+    React.useEffect(() => {
+        setFormValid(validateForm(controls));
+    }, [controls]);
 
     const renderControls = () => (
         Object.keys(controls).map((name, index) => {
@@ -52,9 +58,10 @@ const QuizCreator = () => {
         })
     );
 
-    const renderSelect =() => (
+    const renderSelect = () => (
         <Select
             name="select"
+            label="Выберите правильный ответ"
             value={rightAnswerId}
             fullWidth
             onChange={event => handleSelectChange(event)}
@@ -65,8 +72,36 @@ const QuizCreator = () => {
         />
     );
 
+    const addQuestion = () => {
+        const id = quiz.length + 1;
+        const { question: { value: question } } = controls;
+
+        const answers = variantsMap.map(count => {
+            const { id, value: text } = controls[`variant${count}`];
+
+            return { id, text };
+        });
+
+        setQuiz(prevState => [
+            ...prevState,
+            {
+                id,
+                question,
+                rightAnswerId,
+                answers: [ ...answers ]
+            }
+        ]);
+
+        setControls(initialControls);
+        setRightAnswerId(initialRightAnswerId);
+    };
+
+    const createQuiz = () => {
+
+    };
+
     const handleSelectChange = event => {
-        const value = event.target.value;
+        const value = +event.target.value;
         setRightAnswerId(value);
     };
 
@@ -74,8 +109,7 @@ const QuizCreator = () => {
         const value = event.target.value;
 
         setControls(prevControls => {
-            // const valid = validate(value, prevControls[name].validation);
-            const valid = true;
+            const valid = validateControl(value, prevControls[name].validation);
 
             return {
                 ...prevControls,
@@ -89,14 +123,6 @@ const QuizCreator = () => {
         });
     };
 
-    const addQuestionHandler = () => {
-
-    };
-
-    const createQuizHandler = () => {
-
-    };
-
     return (
         <div className={classes.root}>
             <div>
@@ -108,14 +134,16 @@ const QuizCreator = () => {
                     <div>
                         <Button
                             type="primary"
-                            onClick={addQuestionHandler}
+                            disabled={!isFormValid}
+                            onClick={addQuestion}
                         >
                             Добавить вопрос
                         </Button>
 
                         <Button
                             type="success"
-                            onClick={createQuizHandler}
+                            disabled={!quiz.length}
+                            onClick={createQuiz}
                         >
                             Создать тест
                         </Button>

@@ -1,4 +1,4 @@
-const CreateControl = (config, validation) => ({
+const createControl = (config, validation) => ({
     ...config,
     validation,
     valid: !validation,
@@ -6,4 +6,4 @@ const CreateControl = (config, validation) => ({
     value: '',
 });
 
-export { CreateControl };
+export { createControl };
