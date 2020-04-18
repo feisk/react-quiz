@@ -35,14 +35,14 @@ const FinishedQuiz = props => {
             </ul>
             <p>Правильно {successCount} из {quizLength}</p>
             <Button
-                type="primary"
+                variant="primary"
                 onClick={handleClick}
             >
                 Повторить
             </Button>
             <Link to="/">
                 <Button
-                    type="success"
+                    variant="success"
                     onClick={handleClick}
                 >
                     К списку тестов

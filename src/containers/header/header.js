@@ -33,8 +33,8 @@ const Header = () => {
     return (
         <header className={cls.join(' ')}>
             <Button
+                variant="toggle"
                 customClasses={[
-                    'toggle',
                     show ? 'is-show' : '',
                 ]}
                 onClick={handleClick}

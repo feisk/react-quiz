@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import classes from './style.module.scss';
 import { Button, Input, Select } from '../../components/ui';
 import { createControl, validateControl, validateForm } from '../../helpers';
@@ -26,8 +27,9 @@ const createControls = () => ({
 const QuizCreator = () => {
     const initialControls = createControls();
     const initialRightAnswerId = 1;
+    const initialQuiz = [];
 
-    const [ quiz, setQuiz ] = React.useState([]);
+    const [ quiz, setQuiz ] = React.useState(initialQuiz);
     const [ rightAnswerId, setRightAnswerId ] = React.useState(initialRightAnswerId);
     const [ controls, setControls ] = React.useState(initialControls);
     const [ isFormValid, setFormValid ] = React.useState(true);
@@ -96,8 +98,17 @@ const QuizCreator = () => {
         setRightAnswerId(initialRightAnswerId);
     };
 
-    const createQuiz = () => {
-
+    const createQuiz = async () => {
+        try {
+            await axios.post('https://react-quiz-f8e83.firebaseio.com/quizes.json', quiz)
+                .then(() => {
+                    setQuiz(initialQuiz);
+                    setControls(initialControls);
+                    setRightAnswerId(initialRightAnswerId);
+                });
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     const handleSelectChange = event => {
@@ -123,17 +134,21 @@ const QuizCreator = () => {
         });
     };
 
+    const handleSubmit = e => {
+        e.preventDefault();
+    };
+
     return (
         <div className={classes.root}>
             <div>
                 <h1>Создание теста</h1>
 
-                <form onSubmit={e => e.preventDefault()}>
+                <form onSubmit={handleSubmit}>
                     {renderControls()}
                     {renderSelect()}
                     <div>
                         <Button
-                            type="primary"
+                            variant="primary"
                             disabled={!isFormValid}
                             onClick={addQuestion}
                         >
@@ -141,7 +156,7 @@ const QuizCreator = () => {
                         </Button>
 
                         <Button
-                            type="success"
+                            variant="success"
                             disabled={!quiz.length}
                             onClick={createQuiz}
                         >

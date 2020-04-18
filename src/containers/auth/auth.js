@@ -97,14 +97,14 @@ const Auth = () => {
                     {renderControls()}
                     <div>
                         <Button
-                            type="success"
+                            variant="success"
                             disabled={!isFormValid}
                             onClick={loginHandler}
                         >
                             Войти
                         </Button>
                         <Button
-                            type="primary"
+                            variant="primary"
                             onClick={registerHandler}
                         >
                             Зарегистрироваться
