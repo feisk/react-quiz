@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import classes from './style.module.scss';
+import axios from '../../axios';
 import { Button, Input, Select } from '../../components/ui';
 import { createControl, validateControl, validateForm } from '../../helpers';
 
@@ -100,7 +100,7 @@ const QuizCreator = () => {
 
     const createQuiz = async () => {
         try {
-            await axios.post('https://react-quiz-f8e83.firebaseio.com/quizes.json', quiz)
+            await axios.post('quizes.json', quiz)
                 .then(() => {
                     setQuiz(initialQuiz);
                     setControls(initialControls);

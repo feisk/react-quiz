@@ -1,6 +1,8 @@
 import React from 'react';
 import classes from './style.module.scss';
+import axios from '../../axios';
 import { ActiveQuiz, FinishedQuiz } from '../../components';
+import { Loader } from "../../components/ui/loader";
 
 class Quiz extends React.Component {
     constructor(props) {
@@ -11,79 +13,21 @@ class Quiz extends React.Component {
             activeQuestion: 0,
             answerState: null,
             results: {},
-            quiz: [
-                {
-                    id: 1,
-                    question: 'Какого цвета небо?',
-                    rightAnswerId: 2,
-                    answers: [
-                        {
-                            id: 1,
-                            text: 'Черный'
-                        },
-                        {
-                            id: 2,
-                            text: 'Синий'
-                        },
-                        {
-                            id: 3,
-                            text: 'Красный'
-                        },
-                        {
-                            id: 4,
-                            text: 'Зеленый'
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    question: 'Когда был основан Санкт-Петербург?',
-                    rightAnswerId: 3,
-                    answers: [
-                        {
-                            id: 1,
-                            text: '1700'
-                        },
-                        {
-                            id: 2,
-                            text: '1702'
-                        },
-                        {
-                            id: 3,
-                            text: '1703'
-                        },
-                        {
-                            id: 4,
-                            text: '1803'
-                        }
-                    ]
-                },
-                {
-                    id: 3,
-                    question: 'В каком году началось ВОВ?',
-                    rightAnswerId: 3,
-                    answers: [
-                        {
-                            id: 1,
-                            text: '1939'
-                        },
-                        {
-                            id: 2,
-                            text: '1940'
-                        },
-                        {
-                            id: 3,
-                            text: '1941'
-                        },
-                        {
-                            id: 4,
-                            text: '1942'
-                        }
-                    ]
-                }
-            ]
+            quiz: []
         };
     };
+
+    async componentDidMount() {
+        const { match: { params: { id } }} = this.props;
+
+        try {
+            await axios.get(`quizes/${id}.json`).then(({data: quiz}) => {
+                this.setState({quiz});
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     render() {
         const {
@@ -94,10 +38,8 @@ class Quiz extends React.Component {
             quiz
         } = this.state;
 
-        console.log('Quiz props', this.props);
-
         const questionNumber = activeQuestion + 1;
-        const quizLength = quiz.length;
+        const quizLength = quiz && quiz.length;
 
         const isQuizFinished = () => questionNumber === quizLength;
 
@@ -153,22 +95,26 @@ class Quiz extends React.Component {
           <div className={classes.root}>
               <div>
                   <h1>Ответьте на все вопросы</h1>
-                  { isFinished ?
-                      <FinishedQuiz
-                          quiz={quiz}
-                          results={results}
-                          quizLength={quizLength}
-                          handleClick={handleRetryClick}
-                      />
-                  :
-                      <ActiveQuiz
-                          quiz={quiz[activeQuestion]}
-                          quizLength={quizLength}
-                          answerState={answerState}
-                          questionNumber={questionNumber}
-                          handleClick={handleAnswerClick}
-                      />
-                  }
+                  {quizLength ? (
+                      <>
+                          { isFinished ?
+                                  <FinishedQuiz
+                                      quiz={quiz}
+                                      results={results}
+                                      quizLength={quizLength}
+                                      handleClick={handleRetryClick}
+                                  />
+                                  :
+                                  <ActiveQuiz
+                                      quiz={quiz[activeQuestion]}
+                                      quizLength={quizLength}
+                                      answerState={answerState}
+                                      questionNumber={questionNumber}
+                                      handleClick={handleAnswerClick}
+                                  />
+                          }
+                      </>
+                  ) : <Loader />}
               </div>
           </div>
         )

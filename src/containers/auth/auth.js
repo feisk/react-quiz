@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import classes from './style.module.scss';
 import { Button, Input } from '../../components/ui'
 import { validateControl, validateForm } from '../../helpers';
@@ -60,12 +61,43 @@ const Auth = () => {
         })
     );
 
-    const loginHandler = () => {
+    const loginHandler = async () => {
+        const { email: { value: email }, password: { value: password} } = controls;
 
+        const loginData = {
+            email,
+            password,
+            returnSecureToken: true
+        };
+
+
+        console.log('loginData', loginData);
+
+        try {
+            await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEf8HUO2zwaJbBkGiZ8lYMaEr0REvpBvY', loginData)
+                .then(res => console.log(res));
+        } catch(e) {
+            console.error(e);
+        }
     };
 
-    const registerHandler = () => {
+    const registerHandler = async () => {
+        const { email: { value: email }, password: { value: password} } = controls;
 
+        const registerData = {
+            email,
+            password,
+            returnSecureToken: true
+        };
+
+        console.log('registerData', registerData);
+
+        try {
+            await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEf8HUO2zwaJbBkGiZ8lYMaEr0REvpBvY', registerData)
+            .then(res => console.log(res));
+        } catch(e) {
+            console.error(e);
+        }
     };
 
     const handleChange = (event, name) => {

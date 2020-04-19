@@ -3,10 +3,9 @@
 }
 
 .link {
-
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 1.25em;
 
   &:hover {
     color: #363D54;
