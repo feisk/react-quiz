@@ -7,10 +7,10 @@ const fetchQuizesStart = () => {
     }
 };
 
-const fetchQuizesSuccess = quizList => {
+const fetchQuizesSuccess = list => {
     return {
         type: FETCH_QUIZES_SUCCESS,
-        quizList
+        list
     }
 };
 

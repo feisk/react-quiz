@@ -6,7 +6,7 @@ import { Loader } from '../../components/ui';
 import { fetchQuizes } from '../../redux/actions'
 
 const QuizList = props => {
-    const { onFetchQuizes, quizList, loading, error } = props;
+    const { onFetchQuizes, list, loading, error } = props;
 
     React.useEffect(() => {
         onFetchQuizes();
@@ -16,7 +16,7 @@ const QuizList = props => {
         <p>{error.message ? error.message : 'Ошибка сервера'}</p>
     );
 
-    const isRenderQuizList = !error && !loading;
+    const isRenderList = !error && !loading;
 
     return (
         <div className={classes.root}>
@@ -25,10 +25,10 @@ const QuizList = props => {
 
                 {error && <p>{error.message ? error.message : 'Ошибка загрузки данных'}</p>}
                 {loading && <Loader />}
-                {isRenderQuizList && (
-                    quizList.length ?
+                {isRenderList && (
+                    list.length ?
                         <ul>
-                            {quizList.map(({id, name}) => {
+                            {list.map(({id, name}) => {
                                 return (
                                     <li key={id}>
                                         <NavLink className={classes.link} to={`/quiz/${id}`}>
@@ -46,10 +46,10 @@ const QuizList = props => {
 };
 
 const mapStateToProps = (state) => {
-    const { quiz: { quizList, loading, error} } = state;
+    const { quizList: { list, loading, error} } = state;
 
     return {
-        quizList,
+        list,
         loading,
         error,
     }

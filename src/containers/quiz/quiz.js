@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import classes from './style.module.scss';
 import axios from '../../axios';
 import { ActiveQuiz, FinishedQuiz } from '../../components';
 import { Loader } from "../../components/ui/loader";
+import { fetchQuizes } from "../../redux/actions";
 
 class Quiz extends React.Component {
     constructor(props) {
@@ -13,7 +15,8 @@ class Quiz extends React.Component {
             activeQuestion: 0,
             answerState: null,
             results: {},
-            quiz: []
+            quiz: [],
+            loading: false
         };
     };
 
@@ -95,7 +98,7 @@ class Quiz extends React.Component {
           <div className={classes.root}>
               <div>
                   <h1>Ответьте на все вопросы</h1>
-                  {quizLength ? (
+                  {quizLength ?
                       <>
                           { isFinished ?
                                   <FinishedQuiz
@@ -114,11 +117,30 @@ class Quiz extends React.Component {
                                   />
                           }
                       </>
-                  ) : <Loader />}
+                  : <Loader />}
               </div>
           </div>
         )
     }
 }
 
-export { Quiz };
+const mapStateToProps = (state) => {
+    const { quiz: { quizList, loading, error} } = state;
+
+    return {
+        quizList,
+        loading,
+        error,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFetchQuizes: () => dispatch(fetchQuizes())
+    }
+};
+
+const ConnectedQuiz = connect
+(mapStateToProps, mapDispatchToProps)(Quiz);
+
+export {Quiz, ConnectedQuiz};
