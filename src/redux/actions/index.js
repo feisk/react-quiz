@@ -1,0 +1,1 @@
+export { fetchQuizes } from './quiz';

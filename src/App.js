@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom'
 import  { Layout } from './hoc';
-import  { Quiz, QuizList, QuizCreator, Header, Auth } from './containers';
+import  { Quiz, ConnectedQuizList, QuizCreator, Header, Auth } from './containers';
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
             <Route path="/auth" component={Auth}/>
             <Route path="/quiz-creator" component={QuizCreator}/>
             <Route path="/quiz/:id" component={Quiz}/>
-            <Route path="/" component={QuizList}/>
+            <Route path="/" component={ConnectedQuizList}/>
         </Switch>
     </Layout>
   );
