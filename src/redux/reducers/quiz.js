@@ -1,28 +1,29 @@
-import { FETCH_QUIZES_START, FETCH_QUIZES_SUCCESS, FETCH_QUIZES_ERROR } from "../actions/actionTypes";
+import { FETCH_QUIZ_START, FETCH_QUIZ_SUCCESS, FETCH_QUIZ_ERROR } from "../actions/actionTypes";
 
 const initialState = {
-    isFinished: false,
+    quiz: null,
+    results: {},
     activeQuestion: 0,
     answerState: null,
-    results: {},
-    quiz: [],
-    loading: false
+    isFinished: false,
+    loading: false,
+    error: false
 };
 
 const quiz = (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_QUIZES_START:
+        case FETCH_QUIZ_START:
             return {
                 ...state,
                 loading: true
             };
-        case FETCH_QUIZES_SUCCESS:
+        case FETCH_QUIZ_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                list: action.list
+                quiz: action.quiz
             };
-        case FETCH_QUIZES_ERROR:
+        case FETCH_QUIZ_ERROR:
             return {
                 ...state,
                 loading: false,

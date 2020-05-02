@@ -1,3 +1,3 @@
 export { quiz } from './quiz';
-export { quizList } from './quizList';
+export { quizList } from './quiz-list';
 export { reducers } from './reducers';

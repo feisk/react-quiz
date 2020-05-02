@@ -3,20 +3,20 @@ import { connect } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import classes from './style.module.scss';
 import { Loader } from '../../components/ui';
-import { fetchQuizes } from '../../redux/actions'
+import { fetchQuizList } from '../../redux/actions'
 
 const QuizList = props => {
-    const { onFetchQuizes, list, loading, error } = props;
+    const { onFetchQuizList, list, loading, error } = props;
 
     React.useEffect(() => {
-        onFetchQuizes();
+        onFetchQuizList();
     }, []);
 
     if (error) return (
         <p>{error.message ? error.message : 'Ошибка сервера'}</p>
     );
 
-    const isRenderList = !error && !loading;
+    const isRenderList = !error && !loading && list;
 
     return (
         <div className={classes.root}>
@@ -24,7 +24,9 @@ const QuizList = props => {
                 <h1>Список тестов</h1>
 
                 {error && <p>{error.message ? error.message : 'Ошибка загрузки данных'}</p>}
+
                 {loading && <Loader />}
+
                 {isRenderList && (
                     list.length ?
                         <ul>
@@ -46,18 +48,18 @@ const QuizList = props => {
 };
 
 const mapStateToProps = (state) => {
-    const { quizList: { list, loading, error} } = state;
+    const { quizList: { list, loading, error } } = state;
 
     return {
         list,
         loading,
-        error,
+        error
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchQuizes: () => dispatch(fetchQuizes())
+        onFetchQuizList: () => dispatch(fetchQuizList())
     }
 };
 

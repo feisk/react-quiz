@@ -1,43 +1,37 @@
 import axios from '../../axios';
-import { FETCH_QUIZES_START, FETCH_QUIZES_SUCCESS, FETCH_QUIZES_ERROR } from "./actionTypes";
+import { FETCH_QUIZ_START, FETCH_QUIZ_SUCCESS, FETCH_QUIZ_ERROR } from "./actionTypes";
 
-const fetchQuizesStart = () => {
+const fetchQuizStart = () => {
     return {
-        type: FETCH_QUIZES_START,
+        type: FETCH_QUIZ_START,
     }
 };
 
-const fetchQuizesSuccess = list => {
+const fetchQuizSuccess = quiz => {
     return {
-        type: FETCH_QUIZES_SUCCESS,
-        list
+        type: FETCH_QUIZ_SUCCESS,
+        quiz
     }
 };
 
-const fetchQuizesError = error => {
+const fetchQuizError = error => {
     return {
-        type: FETCH_QUIZES_ERROR,
+        type: FETCH_QUIZ_ERROR,
         error
     }
 };
 
-const fetchQuizes = () => {
+const fetchQuizById = quizId => {
     return async dispatch => {
         try {
-            dispatch(fetchQuizesStart());
-            await axios.get('quizes.json').then(({data}) => {
-                const quizList = data && Object.keys(data).map((key, index) => ({
-                        id: key,
-                        name: `Тест № ${index + 1}`
-                    })
-                );
-
-                dispatch(fetchQuizesSuccess(quizList))
+            dispatch(fetchQuizStart());
+            await axios.get(`quizes/${quizId}.json`).then(({data: quiz}) => {
+                dispatch(fetchQuizSuccess(quiz))
             });
-        } catch(error) {
-            dispatch(fetchQuizesError(error.message))
+        } catch (error) {
+            dispatch(fetchQuizError(error.message))
         }
     }
 };
 
-export { fetchQuizes };
+export { fetchQuizById };

@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classes from './style.module.scss';
-import axios from '../../axios';
 import { ActiveQuiz, FinishedQuiz } from '../../components';
 import { Loader } from "../../components/ui/loader";
-import { fetchQuizes } from "../../redux/actions";
+import { fetchQuizById } from "../../redux/actions";
 
 class Quiz extends React.Component {
     constructor(props) {
@@ -20,16 +19,10 @@ class Quiz extends React.Component {
         };
     };
 
-    async componentDidMount() {
-        const { match: { params: { id } }} = this.props;
+    componentDidMount() {
+        const { onFetchQuizById, match: { params: { id } }} = this.props;
 
-        try {
-            await axios.get(`quizes/${id}.json`).then(({data: quiz}) => {
-                this.setState({quiz});
-            });
-        } catch (e) {
-            console.error(e);
-        }
+        onFetchQuizById(id);
     }
 
     render() {
@@ -38,8 +31,9 @@ class Quiz extends React.Component {
             activeQuestion,
             answerState,
             results,
-            quiz
         } = this.state;
+
+        const { quiz, loading, error } = this.props;
 
         const questionNumber = activeQuestion + 1;
         const quizLength = quiz && quiz.length;
@@ -82,7 +76,7 @@ class Quiz extends React.Component {
                     }));
                 }
                 window.clearTimeout(timeout);
-            }, 500);
+            }, 350);
         };
 
         const handleRetryClick = () => {
@@ -94,30 +88,34 @@ class Quiz extends React.Component {
             });
         };
 
+        const isRenderQuiz = !error && !loading && quiz;
+
         return (
           <div className={classes.root}>
               <div>
                   <h1>Ответьте на все вопросы</h1>
-                  {quizLength ?
+                  {error && <p>{error.message ? error.message : 'Ошибка загрузки данных'}</p>}
+
+                  {loading && <Loader />}
+                  {isRenderQuiz && (
                       <>
-                          { isFinished ?
-                                  <FinishedQuiz
-                                      quiz={quiz}
-                                      results={results}
-                                      quizLength={quizLength}
-                                      handleClick={handleRetryClick}
-                                  />
-                                  :
-                                  <ActiveQuiz
-                                      quiz={quiz[activeQuestion]}
-                                      quizLength={quizLength}
-                                      answerState={answerState}
-                                      questionNumber={questionNumber}
-                                      handleClick={handleAnswerClick}
-                                  />
+                          {isFinished ?
+                              <FinishedQuiz
+                                  quiz={quiz}
+                                  results={results}
+                                  quizLength={quizLength}
+                                  handleClick={handleRetryClick}
+                              /> :
+                              <ActiveQuiz
+                                  quiz={quiz[activeQuestion]}
+                                  quizLength={quizLength}
+                                  answerState={answerState}
+                                  questionNumber={questionNumber}
+                                  handleClick={handleAnswerClick}
+                              />
                           }
                       </>
-                  : <Loader />}
+                  )}
               </div>
           </div>
         )
@@ -125,18 +123,21 @@ class Quiz extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { quiz: { quizList, loading, error} } = state;
+    const { quiz: { quiz, results, activeQuestion, answerState, isFinished, loading } } = state;
 
     return {
-        quizList,
-        loading,
-        error,
+        quiz,
+        results,
+        activeQuestion,
+        answerState,
+        isFinished,
+        loading
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchQuizes: () => dispatch(fetchQuizes())
+        onFetchQuizById: id => dispatch(fetchQuizById(id))
     }
 };
 
