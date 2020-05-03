@@ -5,64 +5,58 @@ import { ActiveQuiz, FinishedQuiz } from '../../components';
 import { Loader } from "../../components/ui/loader";
 import { fetchQuizById, handleAnswerClick, handleRetryClick } from "../../redux/actions";
 
-class Quiz extends React.Component {
-    constructor(props) { //  WHY IT THERE?
-        super(props); //  WHY IT THERE?
-    };
+const Quiz = props => {
+    const {
+        quiz,
+        results,
+        quizLength,
+        activeQuestionIndex,
+        answerState,
+        isFinished,
+        loading,
+        error,
+        onAnswerClick,
+        onRetryClick
+    } = props;
 
-    componentDidMount() {
-        const { onFetchQuizById, match: { params: { id } }} = this.props;
+    React.useEffect(() => {
+        const { onFetchQuizById, match: { params: { id } }} = props;
 
         onFetchQuizById(id);
-    }
+    }, []);
 
-    render() {
-        const {
-            quiz,
-            results,
-            quizLength,
-            activeQuestionIndex,
-            answerState,
-            isFinished,
-            loading,
-            error,
-            onAnswerClick,
-            onRetryClick
-        } = this.props;
+    const isRenderQuiz = !error && !loading && quiz;
 
-        const isRenderQuiz = !error && !loading && quiz;
+    return (
+        <div className={classes.root}>
+            <div>
+                <h1>Ответьте на все вопросы</h1>
+                {error && <p>{error.message ? error.message : 'Ошибка загрузки данных'}</p>}
 
-        return (
-          <div className={classes.root}>
-              <div>
-                  <h1>Ответьте на все вопросы</h1>
-                  {error && <p>{error.message ? error.message : 'Ошибка загрузки данных'}</p>}
-
-                  {loading && <Loader />}
-                  {isRenderQuiz && (
-                      <>
-                          {isFinished ?
-                              <FinishedQuiz
-                                  quiz={quiz}
-                                  results={results}
-                                  quizLength={quizLength}
-                                  handleClick={onRetryClick}
-                              /> :
-                              <ActiveQuiz
-                                  quiz={quiz[activeQuestionIndex]}
-                                  quizLength={quizLength}
-                                  answerState={answerState}
-                                  questionNumber={activeQuestionIndex + 1}
-                                  handleClick={onAnswerClick}
-                              />
-                          }
-                      </>
-                  )}
-              </div>
-          </div>
-        )
-    }
-}
+                {loading && <Loader />}
+                {isRenderQuiz && (
+                    <>
+                        {isFinished ?
+                            <FinishedQuiz
+                                quiz={quiz}
+                                results={results}
+                                quizLength={quizLength}
+                                handleClick={onRetryClick}
+                            /> :
+                            <ActiveQuiz
+                                quiz={quiz[activeQuestionIndex]}
+                                quizLength={quizLength}
+                                answerState={answerState}
+                                questionNumber={activeQuestionIndex + 1}
+                                handleClick={onAnswerClick}
+                            />
+                        }
+                    </>
+                )}
+            </div>
+        </div>
+    )
+};
 
 const mapStateToProps = state => {
     const {
