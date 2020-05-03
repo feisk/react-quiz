@@ -3,20 +3,11 @@ import { connect } from 'react-redux';
 import classes from './style.module.scss';
 import { ActiveQuiz, FinishedQuiz } from '../../components';
 import { Loader } from "../../components/ui/loader";
-import { fetchQuizById } from "../../redux/actions";
+import { fetchQuizById, handleAnswerClick, handleRetryClick } from "../../redux/actions";
 
 class Quiz extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isFinished: false,
-            activeQuestion: 0,
-            answerState: null,
-            results: {},
-            quiz: [],
-            loading: false
-        };
+    constructor(props) { //  WHY IT THERE?
+        super(props); //  WHY IT THERE?
     };
 
     componentDidMount() {
@@ -27,66 +18,17 @@ class Quiz extends React.Component {
 
     render() {
         const {
-            isFinished,
-            activeQuestion,
-            answerState,
+            quiz,
             results,
-        } = this.state;
-
-        const { quiz, loading, error } = this.props;
-
-        const questionNumber = activeQuestion + 1;
-        const quizLength = quiz && quiz.length;
-
-        const isQuizFinished = () => questionNumber === quizLength;
-
-        const handleAnswerClick = id => {
-            if (answerState && answerState[id] === 'success') return;
-
-            const { rightAnswerId } = quiz[activeQuestion];
-
-            if (id !== rightAnswerId) {
-                this.setState(prevState => ({
-                    answerState: {[id]: 'error'},
-                    results: !prevState.results[activeQuestion] ? {
-                        ...prevState.results,
-                        [activeQuestion]: 'error'
-                    } : { ...prevState.results },
-                }));
-                return;
-            }
-
-            this.setState(prevState => ({
-                answerState: {[id]: 'success'},
-                results: !prevState.results[activeQuestion] ? {
-                    ...prevState.results,
-                    [activeQuestion]: 'success'
-                } : { ...prevState.results },
-            }));
-
-            const timeout = window.setTimeout(() => {
-                if (isQuizFinished()) {
-                    this.setState({
-                        isFinished: true,
-                    });
-                } else {
-                    this.setState(prevState => ({
-                        activeQuestion: prevState.activeQuestion + 1,
-                        answerState: null
-                    }));
-                }
-                window.clearTimeout(timeout);
-            }, 350);
-        };
-
-        const handleRetryClick = () => {
-            this.setState( {
-                isFinished: false,
-                activeQuestion: 0,
-                answerState: null,
-                results: {},
-            });
-        };
+            quizLength,
+            activeQuestionIndex,
+            answerState,
+            isFinished,
+            loading,
+            error,
+            onAnswerClick,
+            onRetryClick
+        } = this.props;
 
         const isRenderQuiz = !error && !loading && quiz;
 
@@ -104,14 +46,14 @@ class Quiz extends React.Component {
                                   quiz={quiz}
                                   results={results}
                                   quizLength={quizLength}
-                                  handleClick={handleRetryClick}
+                                  handleClick={onRetryClick}
                               /> :
                               <ActiveQuiz
-                                  quiz={quiz[activeQuestion]}
+                                  quiz={quiz[activeQuestionIndex]}
                                   quizLength={quizLength}
                                   answerState={answerState}
-                                  questionNumber={questionNumber}
-                                  handleClick={handleAnswerClick}
+                                  questionNumber={activeQuestionIndex + 1}
+                                  handleClick={onAnswerClick}
                               />
                           }
                       </>
@@ -122,22 +64,37 @@ class Quiz extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    const { quiz: { quiz, results, activeQuestion, answerState, isFinished, loading } } = state;
+const mapStateToProps = state => {
+    const {
+        quiz: {
+            quiz,
+            results,
+            quizLength,
+            activeQuestionIndex,
+            answerState,
+            isFinished,
+            loading,
+            error
+        }
+    } = state;
 
     return {
         quiz,
         results,
-        activeQuestion,
+        quizLength,
+        activeQuestionIndex,
         answerState,
         isFinished,
-        loading
+        loading,
+        error
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
-        onFetchQuizById: id => dispatch(fetchQuizById(id))
+        onFetchQuizById: id => dispatch(fetchQuizById(id)),
+        onAnswerClick: id => dispatch(handleAnswerClick(id)),
+        onRetryClick: () => dispatch(handleRetryClick())
     }
 };
 

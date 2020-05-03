@@ -1,2 +1,2 @@
 export { fetchQuizList } from './quiz-list';
-export { fetchQuizById } from './quiz';
+export { fetchQuizById, handleAnswerClick, handleRetryClick } from './quiz';
