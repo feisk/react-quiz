@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classes from './style.module.scss';
 import { ActiveQuiz, FinishedQuiz } from '../../components';
 import { Loader } from "../../components/ui/loader";
-import { fetchQuizById, handleAnswerClick, handleRetryClick } from "../../redux/actions";
+import { fetchQuizById, handleAnswerClick, retryQuiz } from "../../redux/actions";
 
 const Quiz = props => {
     const {
@@ -16,15 +16,15 @@ const Quiz = props => {
         loading,
         error,
         onAnswerClick,
-        onRetryClick
+        onRetryQuiz
     } = props;
 
     React.useEffect(() => {
-        const { onFetchQuizById, match: { params: { id } }} = props;
+        const { fetchQuizById, match: { params: { id } }} = props;
 
-        onFetchQuizById(id);
+        fetchQuizById(id);
 
-        return onRetryClick;
+        return onRetryQuiz;
     }, []);
 
     const isRenderQuiz = !error && !loading && quiz;
@@ -43,7 +43,7 @@ const Quiz = props => {
                                 quiz={quiz}
                                 results={results}
                                 quizLength={quizLength}
-                                handleClick={onRetryClick}
+                                handleClick={onRetryQuiz}
                             /> :
                             <ActiveQuiz
                                 quiz={quiz[activeQuestionIndex]}
@@ -88,9 +88,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchQuizById: id => dispatch(fetchQuizById(id)),
+        fetchQuizById: id => dispatch(fetchQuizById(id)),
         onAnswerClick: id => dispatch(handleAnswerClick(id)),
-        onRetryClick: () => dispatch(handleRetryClick())
+        onRetryQuiz: () => dispatch(retryQuiz())
     }
 };
 

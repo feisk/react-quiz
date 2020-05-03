@@ -101,16 +101,10 @@ const finishQuiz = () => {
     }
 };
 
-const handleRetryClick = () => {
-    return dispatch => {
-        dispatch(retryQuiz());
-    }
-};
-
 const retryQuiz = () => {
     return {
         type: RETRY_QUIZ
     }
 };
 
-export { fetchQuizById, handleAnswerClick, handleRetryClick };
+export { fetchQuizById, handleAnswerClick, retryQuiz };

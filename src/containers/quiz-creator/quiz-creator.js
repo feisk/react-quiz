@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from "react-redux";
 import classes from './style.module.scss';
-import axios from '../../axios';
 import { Button, Input, Select } from '../../components/ui';
 import { createControl, validateControl, validateForm } from '../../helpers';
+import { addQuizQuestion, createQuiz } from '../../redux/actions'
 
 const variantsMap = [ 1, 2, 3, 4 ];
 
@@ -24,12 +25,12 @@ const createControls = () => ({
     ...Object.assign({}, ...createVariants(variantsMap))
 });
 
-const QuizCreator = () => {
+const QuizCreator = props => {
     const initialControls = createControls();
     const initialRightAnswerId = 1;
-    const initialQuiz = [];
 
-    const [ quiz, setQuiz ] = React.useState(initialQuiz);
+    const { quiz, onAddQuizQuestion, onCreateQuiz } = props;
+
     const [ rightAnswerId, setRightAnswerId ] = React.useState(initialRightAnswerId);
     const [ controls, setControls ] = React.useState(initialControls);
     const [ isFormValid, setFormValid ] = React.useState(true);
@@ -37,6 +38,11 @@ const QuizCreator = () => {
     React.useEffect(() => {
         setFormValid(validateForm(controls));
     }, [controls]);
+
+    React.useEffect(() => {
+        setControls(initialControls);
+        setRightAnswerId(initialRightAnswerId);
+    }, [quiz]);
 
     const renderControls = () => (
         Object.keys(controls).map((name, index) => {
@@ -74,7 +80,7 @@ const QuizCreator = () => {
         />
     );
 
-    const addQuestion = () => {
+    const handleAddQuestion = () => {
         const id = quiz.length + 1;
         const { question: { value: question } } = controls;
 
@@ -84,31 +90,18 @@ const QuizCreator = () => {
             return { id, text };
         });
 
-        setQuiz(prevState => [
-            ...prevState,
-            {
-                id,
-                question,
-                rightAnswerId,
-                answers: [ ...answers ]
-            }
-        ]);
+        const quizQuestion = {
+            id,
+            question,
+            rightAnswerId,
+            answers: [ ...answers ]
+        };
 
-        setControls(initialControls);
-        setRightAnswerId(initialRightAnswerId);
+        onAddQuizQuestion(quizQuestion);
     };
 
-    const createQuiz = async () => {
-        try {
-            await axios.post('quizes.json', quiz)
-                .then(() => {
-                    setQuiz(initialQuiz);
-                    setControls(initialControls);
-                    setRightAnswerId(initialRightAnswerId);
-                });
-        } catch (e) {
-            console.error(e);
-        }
+    const handleCreateQuiz = () => {
+        onCreateQuiz(quiz);
     };
 
     const handleSelectChange = event => {
@@ -150,7 +143,7 @@ const QuizCreator = () => {
                         <Button
                             variant="primary"
                             disabled={!isFormValid}
-                            onClick={addQuestion}
+                            onClick={handleAddQuestion}
                         >
                             Добавить вопрос
                         </Button>
@@ -158,7 +151,7 @@ const QuizCreator = () => {
                         <Button
                             variant="success"
                             disabled={!quiz.length}
-                            onClick={createQuiz}
+                            onClick={handleCreateQuiz}
                         >
                             Создать тест
                         </Button>
@@ -169,4 +162,23 @@ const QuizCreator = () => {
     );
 };
 
-export { QuizCreator };
+const mapStateToProps = (state) => {
+    const { createQuiz: { quiz } } = state;
+
+    return {
+        quiz
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAddQuizQuestion: question => dispatch(addQuizQuestion(question)),
+        onCreateQuiz: quiz => dispatch(createQuiz(quiz))
+    }
+};
+
+const ConnectedQuizCreator = connect
+(mapStateToProps, mapDispatchToProps)(QuizCreator);
+
+
+export { QuizCreator, ConnectedQuizCreator };

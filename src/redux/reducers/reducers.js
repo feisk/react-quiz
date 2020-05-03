@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux'
 
-import { quiz, quizList } from './';
+import { quiz, quizList, createQuiz } from './';
 
 
 const reducers = combineReducers({
     quiz,
-    quizList
+    quizList,
+    createQuiz
 });
 
 export { reducers };

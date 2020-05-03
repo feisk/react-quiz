@@ -6,10 +6,10 @@ import { Loader } from '../../components/ui';
 import { fetchQuizList } from '../../redux/actions'
 
 const QuizList = props => {
-    const { onFetchQuizList, list, loading, error } = props;
+    const { fetchQuizList, list, loading, error } = props;
 
     React.useEffect(() => {
-        onFetchQuizList();
+        fetchQuizList();
     }, []);
 
     if (error) return (
@@ -59,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchQuizList: () => dispatch(fetchQuizList())
+        fetchQuizList: () => dispatch(fetchQuizList())
     }
 };
 
