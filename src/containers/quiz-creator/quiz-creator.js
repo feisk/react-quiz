@@ -162,7 +162,7 @@ const QuizCreator = props => {
     );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const { createQuiz: { quiz } } = state;
 
     return {
@@ -170,7 +170,7 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         onAddQuizQuestion: question => dispatch(addQuizQuestion(question)),
         onCreateQuiz: quiz => dispatch(createQuiz(quiz))

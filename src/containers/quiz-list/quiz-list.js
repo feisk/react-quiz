@@ -47,7 +47,7 @@ const QuizList = props => {
     );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const { quizList: { list, loading, error } } = state;
 
     return {
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         fetchQuizList: () => dispatch(fetchQuizList())
     }
