@@ -1,5 +1,6 @@
-export { Header } from './header';
-export { Quiz, ConnectedQuiz } from './quiz';
-export { Auth } from './auth';
-export { QuizCreator, ConnectedQuizCreator } from './quiz-creator';
-export { QuizList, ConnectedQuizList } from './quiz-list';
+export { ConnectedHeader } from './header';
+export { ConnectedQuiz } from './quiz';
+export { ConnectedAuth } from './auth';
+export { ConnectedQuizCreator } from './quiz-creator';
+export { ConnectedQuizList } from './quiz-list';
+export { ConnectedLogout } from './logout';

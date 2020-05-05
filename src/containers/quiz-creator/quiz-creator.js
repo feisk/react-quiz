@@ -181,4 +181,4 @@ const ConnectedQuizCreator = connect
 (mapStateToProps, mapDispatchToProps)(QuizCreator);
 
 
-export { QuizCreator, ConnectedQuizCreator };
+export { ConnectedQuizCreator };

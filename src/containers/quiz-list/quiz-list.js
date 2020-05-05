@@ -66,4 +66,4 @@ const mapDispatchToProps = dispatch => {
 const ConnectedQuizList = connect
 (mapStateToProps, mapDispatchToProps)(QuizList);
 
-export {QuizList, ConnectedQuizList};
+export { ConnectedQuizList };

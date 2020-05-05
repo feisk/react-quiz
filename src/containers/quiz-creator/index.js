@@ -1,1 +1,1 @@
-export { QuizCreator, ConnectedQuizCreator } from './quiz-creator';
+export { ConnectedQuizCreator } from './quiz-creator';

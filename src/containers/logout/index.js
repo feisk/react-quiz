@@ -1,0 +1,1 @@
+export { ConnectedLogout } from './logout';

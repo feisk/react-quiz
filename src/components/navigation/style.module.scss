@@ -2,9 +2,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 250px;
-  transform: translate3d(-100%, 0, 0);
-  transition: transform 250ms ease 50ms;
 }
 
 .link {
@@ -20,8 +17,4 @@
     font-weight: 500;
     background-color: rgba(lightgrey, .75);
   }
-}
-
-.show {
-  transform: translate3d(0, 0, 0);
 }

@@ -1,21 +1,56 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom'
-import  { Layout } from './hoc';
-import  { ConnectedQuiz, ConnectedQuizList, ConnectedQuizCreator, Header, Auth } from './containers';
+import { connect } from "react-redux";
+import { Route, Switch, Redirect } from 'react-router-dom'
+import { Layout } from './hoc';
+import {
+    ConnectedAuth,
+    ConnectedHeader,
+    ConnectedLogout,
+    ConnectedQuiz,
+    ConnectedQuizCreator,
+    ConnectedQuizList
+} from './containers';
+import { autoLogin } from "./redux/actions";
 
-const App = () => {
-  return (
-    <Layout
-        header={<Header />}
-    >
-        <Switch>
-            <Route path="/auth" component={Auth}/>
-            <Route path="/quiz-creator" component={ConnectedQuizCreator}/>
-            <Route path="/quiz/:id" component={ConnectedQuiz}/>
-            <Route path="/" component={ConnectedQuizList}/>
-        </Switch>
-    </Layout>
-  );
+const App = props => {
+    const { isAuth, autoLogin } = props;
+
+    React.useEffect(() => {
+        autoLogin()
+    }, []);
+
+    return (
+        <Layout
+            header={<ConnectedHeader/>}
+        >
+            <Switch>
+                {isAuth
+                    ? <Route path="/logout" component={ConnectedLogout}/>
+                    : <Route path="/auth" component={ConnectedAuth}/>
+                }
+                {isAuth && <Route path="/quiz-creator" component={ConnectedQuizCreator}/>}
+                <Route path="/quiz/:id" component={ConnectedQuiz}/>
+                <Route path="/" exact component={ConnectedQuizList}/>
+                <Redirect to="/" />
+            </Switch>
+        </Layout>
+    );
 };
 
-export { App };
+const mapStateToProps = state => {
+    const { auth } = state;
+
+    return {
+        isAuth: !!auth.token
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        autoLogin: () => dispatch(autoLogin())
+    }
+};
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export {ConnectedApp};

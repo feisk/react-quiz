@@ -1,8 +1,9 @@
 import React from 'react';
-import axios from 'axios';
+import { connect } from "react-redux";
 import classes from './style.module.scss';
 import { Button, Input } from '../../components/ui'
 import { validateControl, validateForm } from '../../helpers';
+import { auth } from '../../redux/actions';
 
 const controlsData = {
     email: {
@@ -30,7 +31,8 @@ const controlsData = {
     }
 };
 
-const Auth = () => {
+const Auth = props => {
+    const { auth } = props;
 
     const [ controls, setControls ] = React.useState(controlsData);
     const [ isFormValid, setFormValid ] = React.useState(true);
@@ -61,43 +63,16 @@ const Auth = () => {
         })
     );
 
-    const loginHandler = async () => {
+    const loginHandler = () => {
         const { email: { value: email }, password: { value: password} } = controls;
 
-        const loginData = {
-            email,
-            password,
-            returnSecureToken: true
-        };
-
-
-        console.log('loginData', loginData);
-
-        try {
-            await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEf8HUO2zwaJbBkGiZ8lYMaEr0REvpBvY', loginData)
-                .then(res => console.log(res));
-        } catch(e) {
-            console.error(e);
-        }
+        auth(email, password, true);
     };
 
-    const registerHandler = async () => {
+    const registerHandler = () => {
         const { email: { value: email }, password: { value: password} } = controls;
 
-        const registerData = {
-            email,
-            password,
-            returnSecureToken: true
-        };
-
-        console.log('registerData', registerData);
-
-        try {
-            await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEf8HUO2zwaJbBkGiZ8lYMaEr0REvpBvY', registerData)
-            .then(res => console.log(res));
-        } catch(e) {
-            console.error(e);
-        }
+        auth(email, password, false);
     };
 
     const handleChange = (event, name) => {
@@ -148,4 +123,12 @@ const Auth = () => {
     );
 };
 
-export { Auth };
+const mapDispatchToProps = dispatch => {
+    return {
+        auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+    }
+};
+
+const ConnectedAuth = connect(null, mapDispatchToProps)(Auth);
+
+export { ConnectedAuth };

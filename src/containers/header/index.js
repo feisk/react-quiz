@@ -1,1 +1,1 @@
-export { Header } from './header';
+export { ConnectedHeader } from './header';

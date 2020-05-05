@@ -1,1 +1,1 @@
-export { QuizList, ConnectedQuizList } from './quiz-list';
+export { ConnectedQuizList } from './quiz-list';

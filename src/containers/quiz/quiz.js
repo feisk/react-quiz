@@ -97,4 +97,4 @@ const mapDispatchToProps = dispatch => {
 const ConnectedQuiz = connect
 (mapStateToProps, mapDispatchToProps)(Quiz);
 
-export {Quiz, ConnectedQuiz};
+export { ConnectedQuiz };

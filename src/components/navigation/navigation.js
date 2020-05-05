@@ -3,14 +3,10 @@ import { NavLink } from 'react-router-dom';
 import classes from './style.module.scss';
 
 const Navigation = props => {
-    const { links, show, onClick } = props;
-
-    const cls = [classes.root];
-
-    if (show) cls.push(classes.show);
+    const { links, onClick } = props;
 
     return (
-        <nav className={cls.join(' ')}>
+        <nav className={classes.root}>
             {links.map((link, index) => (
                 <NavLink
                     key={index}
@@ -18,7 +14,7 @@ const Navigation = props => {
                     exact={link.exact}
                     className={classes.link}
                     activeClassName={classes.active}
-                    title={link.to}
+                    title={link.label}
                     onClick={onClick}
                 >
                     {link.label}

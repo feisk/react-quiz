@@ -5,7 +5,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import './index.css';
-import { App } from './App';
+import { ConnectedApp } from './App';
 import * as serviceWorker from './serviceWorker';
 import { reducers } from  './redux/reducers'
 
@@ -21,7 +21,7 @@ const store = createStore(
 const app = (
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <ConnectedApp />
         </BrowserRouter>
     </Provider>
 );

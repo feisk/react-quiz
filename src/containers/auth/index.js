@@ -1,1 +1,1 @@
-export { Auth } from './auth';
+export { ConnectedAuth } from './auth';
