@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
 
-export default axios.create({
-    baseURL: 'https://react-quiz-f8e83.firebaseio.com/'
-});
+const baseURL = process.env.REACT_APP_FIREBASE_URL;
+
+export default axios.create({ baseURL });

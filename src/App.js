@@ -21,7 +21,7 @@ const App = props => {
 
     return (
         <Layout
-            header={<ConnectedHeader/>}
+            Header={<ConnectedHeader/>}
         >
             <Switch>
                 {isAuth

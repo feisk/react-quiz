@@ -4,11 +4,11 @@ import classes from './style.module.scss';
 
 const Layout = props => {
 
-    const { header, children } = props;
+    const { Header, children } = props;
 
     return (
         <div className={classes.layout}>
-            {header}
+            {Header}
             <main className={classes.main}>
                 {children}
             </main>
@@ -17,12 +17,12 @@ const Layout = props => {
 };
 
 Layout.propTypes = {
-    header: PropTypes.node,
+    Header: PropTypes.node,
     children: PropTypes.node
 };
 
 Layout.defaultProps = {
-    header: null,
+    Header: null,
     children: null
 };
 
