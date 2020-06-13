@@ -1,13 +1,14 @@
 import axios from "axios";
 import { AUTH_LOGOUT, AUTH_SUCCESS } from "./actionTypes";
 
+const AUTH_URL = process.env.REACT_APP_AUTH_URL;
+const AUTH_KEY = process.env.REACT_APP_AUTH_KEY;
+
 const auth = (email, password, isLogin) => {
   return async (dispatch) => {
-    const authUrl = process.env.REACT_APP_AUTH_URL;
-    const authKey = process.env.REACT_APP_AUTH_KEY;
     const authType = isLogin ? "signInWithPassword" : "signUp";
 
-    const url = `${authUrl}accounts:${authType}?key=${authKey}`;
+    const url = `${AUTH_URL}accounts:${authType}?key=${AUTH_KEY}`;
 
     const authData = {
       email,
